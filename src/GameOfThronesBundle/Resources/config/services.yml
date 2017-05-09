@@ -1,0 +1,4 @@
+services:
+#    game_of_thrones.example:
+#        class: GameOfThronesBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
