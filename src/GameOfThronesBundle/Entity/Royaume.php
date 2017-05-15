@@ -20,14 +20,10 @@ class Royaume
      */
     private $personnages;
 
-    public function __toString()
-    {
-        $str =
-            '<li>Nom: ' . $this->nom . "</li>" .
-            '<li>Capital: ' . $this->capitale. "</li>" .
-            '<li>Nb Habitant: ' . $this->nbhabitants . "</li>";
-        return $str;
-    }
+//    public function __toString()
+//    {
+//        return $this->nom;
+//    }
 
     // Generated
 

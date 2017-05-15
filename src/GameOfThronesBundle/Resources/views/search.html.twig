@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% if persos is defined %}
+        {{ dump(persos) }}
+    {% endif %}
+
+    <form action="{{ path('search') }}" method="post">
+            <select name="royaume">
+                <option value="royaume_1">royaume_1</option>
+                <option value="royaume_2">royaume_2</option>
+                <option value="royaume_3">royaume_3</option>
+                <option value="royaume_4">royaume_4</option>
+            </select>
+        <input type="submit">
+    </form>
+
+{% endblock %}

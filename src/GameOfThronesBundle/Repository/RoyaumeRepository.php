@@ -10,4 +10,8 @@ namespace GameOfThronesBundle\Repository;
  */
 class RoyaumeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function myFindAll()
+    {
+
+    }
 }

@@ -10,4 +10,25 @@ namespace GameOfThronesBundle\Repository;
  */
 class PersonnageRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function myFindAll(){
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->join('p.royaume', 'r')
+            ->addSelect('r');
+
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function myFindByRoyaume($royaume){
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p')
+            ->join('p.royaume', 'r')
+            ->where('r.nom = :royaume')
+            ->setParameter('royaume', $royaume);
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

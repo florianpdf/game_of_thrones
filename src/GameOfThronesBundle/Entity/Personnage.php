@@ -18,18 +18,18 @@ class Personnage
      * @ORM\ManyToOne(targetEntity="Royaume", inversedBy="personnages")
      */
     private $royaume;
-
-    public function __toString()
-    {
-        $str =
-            'Nom: ' . $this->nom .
-            '<br>Prenom: ' . $this->prenom .
-            '<br>Sexe: ' . $this->sexe .
-            '<br>Biographie: ' . $this->bio .
-            '<br>Royaume: <br><ul>' . $this->royaume .
-            "</ul>";
-        return $str;
-    }
+//
+//    public function __toString()
+//    {
+//        $str =
+//            'Nom: ' . $this->nom .
+//            '<br>Prenom: ' . $this->prenom .
+//            '<br>Sexe: ' . $this->sexe .
+//            '<br>Biographie: ' . $this->bio .
+//            '<br>Royaume: <br><ul>' . $this->royaume .
+//            "</ul>";
+//        return $str;
+//    }
 
     // Generated
 
