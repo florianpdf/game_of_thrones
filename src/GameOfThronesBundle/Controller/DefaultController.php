@@ -2,8 +2,11 @@
 
 namespace GameOfThronesBundle\Controller;
 
+use GameOfThronesBundle\Entity\Personnage;
+use GameOfThronesBundle\Form\PersonnageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
@@ -21,7 +24,7 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/sexe")
+     * @Route("/sexe", name="perso_sexe")
      */
     public function listPersonnageAction(){
         $em = $this->getDoctrine()->getManager();
@@ -35,5 +38,27 @@ class DefaultController extends Controller
         }
 
         return new Response($response);
+    }
+
+    /**
+     * @Route("/add_perso", name="add_perso")
+     */
+    public function addPersoAction(Request $request){
+        $perso = new Personnage();
+        $form = $this->createForm(PersonnageType::class, $perso);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($perso);
+            $em->flush();
+
+            return $this->redirectToRoute('perso_sexe');
+        }
+        return $this->render('@GameOfThrones/addPerso.html.twig', array(
+            'form' => $form->createView(),
+            'perso' => $perso
+        ));
     }
 }

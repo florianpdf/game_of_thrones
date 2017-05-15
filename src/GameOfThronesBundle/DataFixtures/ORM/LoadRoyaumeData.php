@@ -12,7 +12,7 @@ class LoadRoyaumeData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $royaumes = array(
-            "nom" => "ville_",
+            "nom" => "royaume_",
             "capitale" => "capitale_"
         );
 
