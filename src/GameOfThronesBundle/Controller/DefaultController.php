@@ -17,13 +17,13 @@ class DefaultController extends Controller
     public function listAllPersonnage()
     {
         $em = $this->getDoctrine()->getManager();
-        $personnages = $em->getRepository('GameOfThronesBundle:Personnage')->myFindAll();
+        $personnages = $em->getRepository('GameOfThronesBundle:Personnage')->findAll();
 
-        $persosByRoyaume = $em->getRepository('GameOfThronesBundle:Personnage')->myFindByRoyaume('royaume_1');
+        //$persosByRoyaume = $em->getRepository('GameOfThronesBundle:Personnage')->myFindByRoyaume('royaume_1');
 
         return $this->render('@GameOfThrones/allPersonnages.html.twig', array(
             'personnages' => $personnages,
-            'persosByRoyaume' => $persosByRoyaume
+            'persosByRoyaume' => array()
         ));
     }
 
