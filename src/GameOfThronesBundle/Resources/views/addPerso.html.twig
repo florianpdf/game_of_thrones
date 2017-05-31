@@ -2,11 +2,39 @@
 
 {% block body %}
 
-    <div class="container">
-        <h1>Ajout d'un personnage</h1>
+    <h1>Ajout d'un personnage</h1>
 
-        {{ form(form) }}
-        
+    {{ form_start(form) }}
+
+    <div>
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+        {{ form_errors(form.nom) }}
     </div>
+    <div>
+        {{ form_label(form.prenom) }}
+        {{ form_widget(form.prenom) }}
+        {{ form_errors(form.prenom) }}
+    </div>
+    <div>
+        {{ form_label(form.sexe) }}
+        {{ form_widget(form.sexe) }}
+        {{ form_errors(form.sexe) }}
+    </div>
+    <div>
+        {{ form_label(form.bio) }}
+        {{ form_widget(form.bio) }}
+        {{ form_errors(form.bio) }}
+    </div>
+    <div>
+        {{ form_label(form.royaume) }}
+        {{ form_widget(form.royaume) }}
+        {{ form_errors(form.royaume) }}
+    </div>
+    <div>
+        {{ form_widget(form.submit) }}
+    </div>
+
+    {{ form_end(form) }}
 
 {% endblock %}

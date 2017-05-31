@@ -12,6 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
+     * @Route("/", name="homepage")
+     * @return Response
+     */
+    public function homePageAction(){
+        return $this->render('@GameOfThrones/Default/index.html.twig');
+    }
+
+    /**
      * @Route("/list_personnages", name="persos")
     */
     public function listAllPersonnage()

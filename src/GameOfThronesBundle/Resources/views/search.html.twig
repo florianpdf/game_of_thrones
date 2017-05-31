@@ -2,18 +2,35 @@
 
 {% block body %}
 
-    {% if persos is defined %}
-        {{ dump(persos) }}
-    {% endif %}
-
-    <form action="{{ path('search') }}" method="post">
-            <select name="royaume">
-                <option value="royaume_1">royaume_1</option>
-                <option value="royaume_2">royaume_2</option>
-                <option value="royaume_3">royaume_3</option>
-                <option value="royaume_4">royaume_4</option>
-            </select>
-        <input type="submit">
-    </form>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <form action="{{ path('search') }}" method="post">
+                <label for="royaume">Selectionnez un royaume</label>
+                <select id="royaume" name="royaume">
+                    <option value="royaume_1">royaume_1</option>
+                    <option value="royaume_2">royaume_2</option>
+                    <option value="royaume_3">royaume_3</option>
+                    <option value="royaume_4">royaume_4</option>
+                </select>
+                <input type="submit">
+            </form>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            {% if persos is defined %}
+                <p>Resultat de la recherche</p>
+                {% for perso in persos %}
+                    <h1>{{ perso.nom }}</h1>
+                    <ul>
+                        <li>{{ perso.prenom }}</li>
+                        <li>{{ perso.sexe }}</li>
+                        <li>{{ perso.bio }}</li>
+                        <li>
+                            {{ perso.royaume.nom }}
+                        </li>
+                    </ul>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

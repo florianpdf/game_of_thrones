@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{{ dump(persosByRoyaume) }}
-    <div class="container">
     {% for perso in personnages %}
         <h1>{{ perso.nom }}</h1>
         <ul>
@@ -15,6 +13,4 @@
         </ul>
 
     {% endfor %}
-    </div>
-
 {% endblock %}
