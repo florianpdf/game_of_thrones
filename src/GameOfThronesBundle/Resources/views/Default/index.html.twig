@@ -4,4 +4,32 @@
 
     <h1 class="text-center">Hello Everybody</h1>
 
+    <div id="content" >
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready( function() {
+            $('#showPerso').click( function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    method: 'post',
+                    url: '{{ path('persos') }}',
+
+                    success: function (response) {
+                        $('#content').html(response);
+                    },
+
+                    error: function () {
+                        alert('plop');
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
