@@ -59,13 +59,18 @@ class DefaultController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($request->isXmlHttpRequest()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($perso);
             $em->flush();
 
-            return $this->redirectToRoute('persos');
+            $nom = $perso->getNom();
+
+            $response = new Response($nom);
+
+            return $response;
         }
+
         return $this->render('@GameOfThrones/addPerso.html.twig', array(
             'form' => $form->createView(),
             'perso' => $perso
