@@ -6,8 +6,12 @@ use GameOfThronesBundle\Entity\Personnage;
 use GameOfThronesBundle\Form\PersonnageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class DefaultController extends Controller
 {
@@ -22,17 +26,27 @@ class DefaultController extends Controller
     /**
      * @Route("/list_personnages", name="persos")
     */
-    public function listAllPersonnage()
+    public function listAllPersonnage(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $personnages = $em->getRepository('GameOfThronesBundle:Personnage')->findAll();
 
         //$persosByRoyaume = $em->getRepository('GameOfThronesBundle:Personnage')->myFindByRoyaume('royaume_1');
 
-        return $this->render('@GameOfThrones/allPersonnages.html.twig', array(
-            'personnages' => $personnages,
-            'persosByRoyaume' => array()
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes(array('royaume'));
+        $jsonEncoder = new JsonEncoder();
+        $serializer = new Serializer(array($normalizer), array($jsonEncoder));
+
+        $jsonPerso = $serializer->serialize($personnages, 'json');
+
+        $content = $this->renderView('@GameOfThrones/allPersonnages.html.twig', array(
+            'personnages'=>$personnages
         ));
+
+        $response = new JsonResponse($content);
+
+        return $response;
     }
 
     /**
@@ -45,13 +59,18 @@ class DefaultController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($request->isXmlHttpRequest()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($perso);
             $em->flush();
 
-            return $this->redirectToRoute('persos');
+            $nom = $perso->getNom();
+
+            $response = new Response($nom);
+
+            return $response;
         }
+
         return $this->render('@GameOfThrones/addPerso.html.twig', array(
             'form' => $form->createView(),
             'perso' => $perso
@@ -64,15 +83,22 @@ class DefaultController extends Controller
      */
     public function findByRoyaumeAction(Request $request){
 
-        if ($request->isMethod('post')){
-            $royaume = $_REQUEST['royaume'];
+        if($request->isXmlHttpRequest()){
+            $royaume = $request->request->get('royaume');
 
             $em = $this->getDoctrine()->getManager();
             $persos = $em->getRepository('GameOfThronesBundle:Personnage')->myFindByRoyaume($royaume);
+            if(empty($persos)){
+                $content = "prout";
+            }else {
+                $content = $this->renderView('@GameOfThrones/allPersonnages.html.twig', array(
+                    'personnages' => $persos
+                ));
+            }
 
-            return $this->render('@GameOfThrones/search.html.twig', array(
-                'persos' => $persos
-            ));
+            $response = new JsonResponse($content);
+
+            return $response;
         }
 
         return $this->render('@GameOfThrones/search.html.twig');

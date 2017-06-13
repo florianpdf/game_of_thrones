@@ -37,4 +37,46 @@
 
     {{ form_end(form) }}
 
+    <div>
+        <ul id="persoAdded">
+
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready( function () {
+            $('form[name="gameofthronesbundle_personnage"]').submit( function (e) {
+                e.preventDefault();
+                var form = $(this).serialize();
+                var plop = $(this);
+                $.ajax({
+                    method: 'post',
+                    url: '{{ path('add_perso') }}',
+                    data: form,
+
+                    success: function(response) {
+                        console.log(response);
+                        alert(response + ' ajouté!');
+                        var li = $(document.createElement('li'));
+                        li.attr({
+                            'class': 'plop',
+                            'id': '12'
+                        });
+
+                        li.text(response);
+
+                        $('#persoAdded').append(li);
+                        li.hide().slideDown(200);
+
+                        plop.trigger('reset');
+
+                    }
+                })
+            });
+        });
+    </script>
 {% endblock %}

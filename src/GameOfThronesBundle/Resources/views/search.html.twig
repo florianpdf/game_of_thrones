@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-6 col-xs-12">
-            <form action="{{ path('search') }}" method="post">
+            <form name="perso" action="{{ path('search') }}" method="post">
                 <label for="royaume">Selectionnez un royaume</label>
                 <select id="royaume" name="royaume">
                     <option value="royaume_1">royaume_1</option>
@@ -15,22 +15,42 @@
                 <input type="submit">
             </form>
         </div>
-        <div class="col-md-6 col-xs-12">
-            {% if persos is defined %}
-                <p>Resultat de la recherche</p>
-                {% for perso in persos %}
-                    <h1>{{ perso.nom }}</h1>
-                    <ul>
-                        <li>{{ perso.prenom }}</li>
-                        <li>{{ perso.sexe }}</li>
-                        <li>{{ perso.bio }}</li>
-                        <li>
-                            {{ perso.royaume.nom }}
-                        </li>
-                    </ul>
-                {% endfor %}
-            {% endif %}
+        <div id="persosResult" class="col-md-6 col-xs-12">
+
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script>
+        $(document).ready( function () {
+            $('form[name="perso"]').submit( function (e) {
+                e.preventDefault();
+                
+                var data = new FormData(this);
+                $.ajax({
+                    method: 'post',
+                    url: '{{ path('search') }}',
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    
+                    success: function (response) {
+                        if(response == 'prout') {
+                            alert('Pas de persos dans ce Royaume.')
+                        }
+                        else {
+                            $('#persosResult').html(response).hide().fadeIn(500, function () {
+                               $(this).find('h1').css('color', 'red');
+                            });
+                        }
+
+                        console.log(response);
+                    },
+                });
+            });
+        });
+    </script>
 {% endblock %}
