@@ -12,4 +12,4 @@ composer ==> [Install Composer](https://getcomposer.org/doc/00-intro.md)
 5. php bin/console doctrine:database:create
 6. php bin/console doctrine:schema:update --force
 
-A Symfony project created on April 25, 2017, 11:36 am.
+A Symfony 3.2 project created on April 25, 2017, 11:36 am.
